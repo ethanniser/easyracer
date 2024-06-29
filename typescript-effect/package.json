@@ -21,13 +21,14 @@
     "ts-node": "latest"
   },
   "dependencies": {
-    "@effect/platform": "0.53.0",
-    "@effect/platform-node": "0.49.0",
-    "effect": "3.1.2"
+    "@effect/platform": "0.58.16",
+    "@effect/platform-node": "0.53.15",
+    "effect": "3.4.5"
   },
   "jest": {
     "transform": {
       "^.+\\.ts$": "ts-jest"
     }
-  }
+  },
+  "packageManager": "pnpm@9.4.0+sha256.b6fd0bfda555e7e584ad7e56b30c68b01d5a04f9ee93989f4b93ca8473c49c74"
 }
