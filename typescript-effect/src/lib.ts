@@ -42,12 +42,16 @@ function scenario2(port: number) {
 }
 
 function scenario3(port: number) {
-  const req = pipe(
-    HttpClientRequest.get(scenarioUrl(port, 3)),
-    HttpClient.fetchOk,
-    HttpClientResponse.text
-  );
-  return Effect.raceAll(Array.replicate(req, 10000));
+  return Effect.gen(function* () {
+    let count = 0;
+    const req = pipe(
+      HttpClientRequest.get(scenarioUrl(port, 3)),
+      HttpClient.fetchOk,
+      HttpClientResponse.text,
+      Effect.zipLeft(Effect.log("count", count++))
+    );
+    return yield* Effect.raceAll(Array.replicate(req, 10000));
+  });
 }
 
 function scenario4(port: number) {
@@ -138,7 +142,7 @@ function scenario10(port: number) {
       pool.executeEffect()
     );
 
-    const load = null;
+    const load = "?";
 
     const part2 = HttpClientRequest.get(
       scenarioUrl(port, 10) + `?${id}=${load}`
@@ -161,7 +165,8 @@ export function program(port: number) {
     scenario1(port),
     scenario2(port),
     scenario3(port),
-    scenario4(port),
+    // wait for previous scenario connections to close
+    scenario4(port).pipe(Effect.delay("10 seconds")),
     scenario5(port),
     scenario6(port),
     scenario7(port),

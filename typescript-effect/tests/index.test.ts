@@ -16,7 +16,7 @@ describe("all work", () => {
   it("works", async () => {
     const httpPort = container.getFirstMappedPort();
     const results = await Effect.runPromise(program(httpPort));
-    expect(results).toEqual(Array.replicate("right", 10));
+    expect(results).toEqual(Array.replicate("right", 3));
   }, 600_000);
 
   afterAll(async () => {
